@@ -1,6 +1,7 @@
 #!/command/execlineb -P
 
 with-contenv
+s6-envuidgid postgres
 fdmove -c 2 1
 
 /usr/bin/pgbackrest server
