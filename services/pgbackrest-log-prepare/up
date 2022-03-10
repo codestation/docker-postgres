@@ -1,3 +1,0 @@
-if { mkdir -p /var/log/pgbackrest-log }
-if { chown nobody:nogroup /var/log/pgbackrest-log }
-chmod 02755 /var/log/pgbackrest-log
