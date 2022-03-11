@@ -30,7 +30,9 @@ steps:
     settings:
       repos:
         - registry.megpoid.xyz/codestation/postgres
-      tags: 14
+      tags:
+        - 14
+        - latest
       dockerfile: 14/Dockerfile
       registry: registry.megpoid.xyz
       platforms:
