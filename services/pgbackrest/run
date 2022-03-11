@@ -1,3 +1,4 @@
 #!/command/execlineb -P
 with-contenv
-s6-envuidgid postgres pgbackrest server
+s6-setuidgid postgres
+pgbackrest server
