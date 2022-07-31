@@ -41,15 +41,6 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build and push Docker image (postgres:13)
-        uses: docker/build-push-action@v2
-        with:
-          push: ${{ github.event_name != 'pull_request' }}
-          platforms: linux/amd64,linux/arm64
-          file: 13/Dockerfile
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:13
-          labels: ${{ steps.meta.outputs.labels }}
-
       - name: Build and push Docker image (postgres:14)
         uses: docker/build-push-action@v2
         with:

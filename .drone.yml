@@ -12,10 +12,10 @@ steps:
     image: ghcr.io/codestation/drone-docker
     settings:
       repos:
-        - registry.megpoid.xyz/codestation/postgres
+        - registry.megpoid.dev/codestation/postgres
       tags: 13
       dockerfile: 13/Dockerfile
-      registry: registry.megpoid.xyz
+      registry: registry.megpoid.dev
       platforms:
         - linux/amd64
         - linux/arm64
@@ -29,12 +29,12 @@ steps:
     image: ghcr.io/codestation/drone-docker
     settings:
       repos:
-        - registry.megpoid.xyz/codestation/postgres
+        - registry.megpoid.dev/codestation/postgres
       tags:
         - 14
         - latest
       dockerfile: 14/Dockerfile
-      registry: registry.megpoid.xyz
+      registry: registry.megpoid.dev
       platforms:
         - linux/amd64
         - linux/arm64
@@ -53,7 +53,7 @@ steps:
       template: |
         {
           "images": [
-            "registry.megpoid.xyz/codestation/postgres"
+            "registry.megpoid.dev/codestation/postgres"
           ]
         }
 
