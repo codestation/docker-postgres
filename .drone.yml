@@ -8,24 +8,7 @@ platform:
   arch: arm64
 
 steps:
-  - name: build-13
-    image: ghcr.io/codestation/drone-docker
-    settings:
-      repos:
-        - registry.megpoid.dev/codestation/postgres
-      tags: 13
-      dockerfile: 13/Dockerfile
-      registry: registry.megpoid.dev
-      platforms:
-        - linux/amd64
-        - linux/arm64
-      buildkit: true
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-
-  - name: build-14
+  - name: build
     image: ghcr.io/codestation/drone-docker
     settings:
       repos:
@@ -49,7 +32,7 @@ steps:
     settings:
       urls: http://updater:8000/apis/swarm/v1/update
       token_value:
-        from_secret: updater_appkey
+        from_secret: updater_apikey
       template: |
         {
           "images": [
