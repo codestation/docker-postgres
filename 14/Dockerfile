@@ -2,7 +2,7 @@ FROM postgres:14-bullseye
 
 LABEL maintainer="codestation <codestation@megpoid.dev>"
 
-ARG BACKREST_VERSION=2.40-3.pgdg110+1
+ARG BACKREST_VERSION=2.41
 ARG S6_OVERLAY_VERSION=3.1.2.1
 
 # Install pgbackrest
@@ -11,7 +11,7 @@ RUN set -ex; \
 	DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
 		ca-certificates \
 		curl \
-		pgbackrest=${BACKREST_VERSION} \
+		pgbackrest=${BACKREST_VERSION}-* \
 	; \
 	rm -rf /var/lib/apt/lists/*;
 
