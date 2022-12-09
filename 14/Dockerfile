@@ -2,7 +2,7 @@ FROM postgres:14-bullseye
 
 LABEL maintainer="codestation <codestation@megpoid.dev>"
 
-ARG BACKREST_VERSION=2.41
+ARG BACKREST_VERSION=2.43
 ARG S6_OVERLAY_VERSION=3.1.2.1
 
 # Install pgbackrest
