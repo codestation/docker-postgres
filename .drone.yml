@@ -11,16 +11,12 @@ steps:
   - name: build
     image: ghcr.io/codestation/drone-kaniko
     settings:
-      repos:
-        - registry.megpoid.dev/codestation/postgres
+      registry: registry.megpoid.dev
+      repo: registry.megpoid.dev/codestation/postgres
+      dockerfile: 14/Dockerfile
       tags:
         - 14
         - latest
-      dockerfile: 14/Dockerfile
-      registry: registry.megpoid.dev
-      platforms:
-        - linux/amd64
-        - linux/arm64
       username:
         from_secret: docker_username
       password:
