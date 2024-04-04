@@ -8,7 +8,7 @@ platform:
   arch: arm64
 
 steps:
-  - name: build
+  - name: build-14
     image: ghcr.io/codestation/drone-kaniko
     settings:
       registry: registry.megpoid.dev
@@ -16,6 +16,19 @@ steps:
       dockerfile: 14/Dockerfile
       tags:
         - 14
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
+  - name: build-16
+    image: ghcr.io/codestation/drone-kaniko
+    settings:
+      registry: registry.megpoid.dev
+      repo: registry.megpoid.dev/codestation/postgres
+      dockerfile: 16/Dockerfile
+      tags:
+        - 16
         - latest
       username:
         from_secret: docker_username
