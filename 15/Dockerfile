@@ -1,4 +1,4 @@
-FROM postgres:16.8-bookworm
+FROM postgres:15.12-bookworm
 
 LABEL maintainer="codestation <codestation@megpoid.dev>"
 
