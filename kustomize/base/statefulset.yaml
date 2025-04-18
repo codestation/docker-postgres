@@ -1,0 +1,118 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  labels:
+    app.kubernetes.io/name: postgres
+    app.kubernetes.io/instance: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: postgres
+      app.kubernetes.io/instance: postgres
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: postgres
+        app.kubernetes.io/instance: postgres
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+        runAsGroup: 999
+        fsGroup: 999
+      terminationGracePeriodSeconds: 60
+      initContainers:
+        - name: import-base
+          image: ghcr.io/codestation/pgbackrest:2.54.2-postgres17
+          command:
+            - bash
+            - -c
+            - /scripts/restore.sh
+          envFrom:
+            - configMapRef:
+                name: pgbackrest-config
+            - configMapRef:
+                name: postgres-config
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+            - name: pgbackrest-scripts
+              mountPath: /scripts
+            - name: pgbackrest-files
+              mountPath: /defaults
+            - name: pgbackrest-certs
+              mountPath: /certs
+      containers:
+        - name: postgres
+          image: ghcr.io/codestation/postgres:17
+          command: ["docker-entrypoint.sh"]
+          args: ["postgres"]
+          envFrom:
+            - configMapRef:
+                name: postgres-config
+            - configMapRef:
+                name: pgbackrest-config
+            - secretRef:
+                name: postgres-secret
+                optional: true
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-root-credentials
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-root-credentials
+                  key: password
+          ports:
+            - containerPort: 5432
+              name: postgres
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - exec pg_ctl stop -D /var/lib/postgresql/data -m fast -w -t 60
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+            - name: shm
+              mountPath: /dev/shm
+            - name: pgbackrest-spooler
+              mountPath: /var/spool/pgbackrest
+            - name: postgres-scripts
+              mountPath: /docker-entrypoint-initdb.d
+            - name: pgbackrest-certs
+              mountPath: /certs
+      volumes:
+        - name: pgdata
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+        - name: shm
+          emptyDir:
+            medium: Memory
+        - name: postgres-scripts
+          configMap:
+            name: postgres-scripts
+            defaultMode: 0755
+        - name: pgbackrest-spooler
+          emptyDir: {}
+        - name: pgbackrest-scripts
+          configMap:
+            name: pgbackrest-scripts
+            defaultMode: 0755
+        - name: pgbackrest-files
+          configMap:
+            name: pgbackrest-files
+            defaultMode: 0600
+        - name: pgbackrest-certs
+          projected:
+            defaultMode: 0600
+            sources:
+              - secret:
+                  name: pgbackrest-certs

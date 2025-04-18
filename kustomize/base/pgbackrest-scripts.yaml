@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgbackrest-scripts
+data:
+  restore.sh: |
+    #!/bin/bash
+    set -e
+
+    # look specifically for PG_VERSION, as it is expected in the DB dir
+    if [ -s "$PGDATA/PG_VERSION" ]; then
+      echo "The data directory is not empty. Skipping restore."
+      exit 0
+    fi
+
+    # PGBACKREST_STANZA and PGBACKREST_TARGET must be set
+    if [ -z "${PGBACKREST_STANZA}" ] || [ -z "${PGBACKREST_TARGET}" ]; then
+      echo "PGBACKREST_STANZA and PGBACKREST_TARGET aren't set. Skipping restore."
+      exit 0
+    fi
+
+    pgbackrest restore --stanza="${PGBACKREST_STANZA}" --type=time --target="${PGBACKREST_TARGET}" --target-action=promote --archive-mode=off --log-level-file=info
+
+    # copy postgresql.conf, pg_ident.conf and pg_hba.conf to PGDATA from /defaults if they are missing from PGDATA
+    if [ ! -f "${PGDATA}/postgresql.conf" ]; then
+      cp /defaults/postgresql.conf "${PGDATA}/postgresql.conf"
+    fi
+
+    if [ ! -f "${PGDATA}/pg_hba.conf" ]; then
+      cp /defaults/pg_hba.conf "${PGDATA}/pg_hba.conf"
+    fi
+
+    if [ ! -f "${PGDATA}/pg_ident.conf" ]; then
+      cp /defaults/pg_ident.conf "${PGDATA}/pg_ident.conf"
+    fi

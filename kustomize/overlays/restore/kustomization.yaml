@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: db-restore
+
+resources:
+  - ../../base
+  - pgbackrest-certs.yaml
+  - namespace.yaml
+  - secret.yaml
+
+configMapGenerator:
+  - name: pgbackrest-config
+    behavior: merge
+    envs:
+      - pgbackrest-config.env
+  - name: postgres-config
+    behavior: merge
+    envs:
+      - postgres-config.env

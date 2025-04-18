@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgbackrest-config
+data:
+  # Stanza options
+  PGBACKREST_PG1_PATH: /var/lib/postgresql/data/pgdata
+  # Global options
+  PGBACKREST_LOG_LEVEL_CONSOLE: info
+  PGBACKREST_LOG_LEVEL_FILE: info
+  PGBACKREST_PROCESS_MAX: "4"
+  PGBACKREST_ARCHIVE_ASYNC: "y"
+  # Repo options
+  PGBACKREST_REPO1_BUNDLE: "y"
+  PGBACKREST_REPO1_PATH: /repo
+  PGBACKREST_REPO1_HOST_CA_FILE: /certs/ca.crt
+  PGBACKREST_REPO1_HOST_CERT_FILE: /certs/tls.crt
+  PGBACKREST_REPO1_HOST_KEY_FILE: /certs/tls.key
+  PGBACKREST_REPO1_HOST_TYPE: tls
+  # TLS server options
+  PGBACKREST_TLS_SERVER_ADDRESS: "*"
+  PGBACKREST_TLS_SERVER_CA_FILE: /certs/ca.crt
+  PGBACKREST_TLS_SERVER_CERT_FILE: /certs/tls.crt
+  PGBACKREST_TLS_SERVER_KEY_FILE: /certs/tls.key
