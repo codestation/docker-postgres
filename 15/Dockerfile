@@ -1,9 +1,9 @@
-FROM postgres:15.12-bookworm
+FROM postgres:15.13-bookworm
 
 LABEL maintainer="codestation <codestation@megpoid.dev>"
 
-ARG BACKREST_VERSION=2.54.2
-ARG S6_OVERLAY_VERSION=3.2.0.2
+ARG BACKREST_VERSION=2.55.1
+ARG S6_OVERLAY_VERSION=3.2.1.0
 
 # Install pgbackrest
 RUN set -ex; \
