@@ -4,7 +4,7 @@ matrix:
 
 steps:
   build:
-    image: woodpeckerci/plugin-docker-buildx:6.0.1
+    image: woodpeckerci/plugin-docker-buildx:6.0.2
     settings:
       registry: registry.megpoid.dev
       repo: registry.megpoid.dev/codestation/postgres

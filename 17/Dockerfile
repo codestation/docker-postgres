@@ -1,8 +1,8 @@
-FROM postgres:17.5-bookworm
+FROM postgres:17.6-trixie
 
 LABEL maintainer="codestation <codestation@megpoid.dev>"
 
-ARG BACKREST_VERSION=2.55.1
+ARG BACKREST_VERSION=2.56.0
 ARG S6_OVERLAY_VERSION=3.2.1.0
 
 # Install pgbackrest
