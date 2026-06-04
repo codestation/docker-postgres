@@ -1,10 +1,10 @@
 matrix:
   POSTGRES_VERSION:
-    - 17
+    - 18
 
 steps:
   build:
-    image: woodpeckerci/plugin-docker-buildx:6.0.2
+    image: woodpeckerci/plugin-docker-buildx:6.1.0
     settings:
       registry: registry.megpoid.dev
       repo: registry.megpoid.dev/codestation/postgres

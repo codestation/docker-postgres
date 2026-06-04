@@ -1,9 +1,9 @@
-FROM postgres:16.10-trixie
+FROM postgres:16.14-trixie
 
 LABEL maintainer="codestation <codestation@megpoid.dev>"
 
-ARG BACKREST_VERSION=2.56.0
-ARG S6_OVERLAY_VERSION=3.2.1.0
+ARG BACKREST_VERSION=2.58.0
+ARG S6_OVERLAY_VERSION=3.2.3.0
 
 # Install pgbackrest
 RUN set -ex; \
